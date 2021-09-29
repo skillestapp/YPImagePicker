@@ -23,6 +23,9 @@ class YPAssetViewContainer: UIView {
     public var isShown = true
     public var spinnerIsShown = false
     
+    // Skillest Addons
+    public let selectMorePhotosButton = UIButton()
+
     private let spinner = UIActivityIndicatorView(style: .white)
     private var shouldCropToSquare = YPConfig.library.isSquareByDefault
     private var isMultipleSelection = false
@@ -88,12 +91,16 @@ class YPAssetViewContainer: UIView {
         }
         
         // Multiple selection button
-        sv(multipleSelectionButton)
-        multipleSelectionButton.size(42)
-        multipleSelectionButton-15-|
-        multipleSelectionButton.setImage(YPConfig.icons.multipleSelectionOffIcon, for: .normal)
-        multipleSelectionButton.Bottom == zoomableView!.Bottom - 15
+//        sv(multipleSelectionButton)
+//        multipleSelectionButton.size(42)
+//        multipleSelectionButton-15-|
+//        multipleSelectionButton.setImage(YPConfig.icons.multipleSelectionOffIcon, for: .normal)
+//        multipleSelectionButton.Bottom == zoomableView!.Bottom - 15
         
+        sv(selectMorePhotosButton)
+        selectMorePhotosButton-15-|
+        selectMorePhotosButton.setTitle("Change Selection", for: .normal)
+        selectMorePhotosButton.Bottom == zoomableView!.Bottom - 15
     }
     
     // MARK: - Square button

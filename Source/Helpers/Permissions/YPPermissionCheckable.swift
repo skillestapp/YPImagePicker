@@ -13,6 +13,7 @@ internal protocol YPPermissionCheckable {
     func doAfterCameraPermissionCheck(block: @escaping () -> Void)
     func checkLibraryPermission()
     func checkCameraPermission()
+    var isCurrentLibraryPermissionLimitedSelection: Bool { get }
 }
 
 internal extension YPPermissionCheckable where Self: UIViewController {
@@ -42,5 +43,12 @@ internal extension YPPermissionCheckable where Self: UIViewController {
     
     func checkCameraPermission() {
         YPPermissionManager.checkCameraPermissionAndAskIfNeeded(sourceVC: self) { _ in }
+    }
+    
+    var isCurrentLibraryPermissionLimitedSelection: Bool {
+        if #available(iOS 14, *), YPPermissionManager.currentLibraryPremissionLevel() == .limited {
+            return true
+        }
+        return false
     }
 }
