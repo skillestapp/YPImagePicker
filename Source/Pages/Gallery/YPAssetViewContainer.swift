@@ -100,6 +100,8 @@ class YPAssetViewContainer: UIView {
         sv(selectMorePhotosButton)
         selectMorePhotosButton-15-|
         selectMorePhotosButton.setTitle("Change Selection", for: .normal)
+        selectMorePhotosButton.width(150)
+        selectMorePhotosButton.backgroundColor = .black.withAlphaComponent(0.5)
         selectMorePhotosButton.Bottom == zoomableView!.Bottom - 15
     }
     
