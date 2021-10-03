@@ -193,7 +193,16 @@ internal class YPLibraryVC: UIViewController, YPPermissionCheckable {
     @objc
     func changeAssetSelectionButtonTapped() {
         if #available(iOS 14, *), isCurrentLibraryPermissionLimitedSelection {
-            PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+            let originalAppearance = UINavigationBar.appearance()
+            let skillestRed = UIColor(red: 255.0/255.0, green: 94.0/255.0, blue: 91.0/255.0, alpha: 1.0)
+            UINavigationBar.appearance().backgroundColor = skillestRed
+            if #available(iOS 15, *) {
+                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self) { _ in
+                    UINavigationBar.appearance().backgroundColor = originalAppearance.backgroundColor
+                }
+            } else {
+                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+            }
         }
     }
     
