@@ -10,6 +10,17 @@ import UIKit
 
 internal struct YPPermissionManager {
     typealias YPPermissionManagerCompletion = (_ hasPermission: Bool) -> Void
+    
+    static func currentLibraryPremissionLevel() -> PHAuthorizationStatus {
+        var status: PHAuthorizationStatus
+
+        if #available(iOS 14, *) {
+            status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        } else {
+            status = PHPhotoLibrary.authorizationStatus()
+        }
+        return status
+    }
 
     static func checkLibraryPermissionAndAskIfNeeded(sourceVC: UIViewController,
                                                      completion: @escaping YPPermissionManagerCompletion) {

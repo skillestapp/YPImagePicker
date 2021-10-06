@@ -65,6 +65,7 @@ internal class YPLibraryVC: UIViewController, YPPermissionCheckable {
         refreshMediaRequest()
 
         v.assetViewContainer.multipleSelectionButton.isHidden = !(YPConfig.library.maxNumberOfItems > 1)
+        v.assetViewContainer.selectMorePhotosButton.isHidden = !isCurrentLibraryPermissionLimitedSelection
         v.maxNumberWarningLabel.text = String(format: YPConfig.wordings.warningMaxItemsLimit,
 											  YPConfig.library.maxNumberOfItems)
         
@@ -131,6 +132,10 @@ internal class YPLibraryVC: UIViewController, YPPermissionCheckable {
             .addTarget(self,
                        action: #selector(multipleSelectionButtonTapped),
                        for: .touchUpInside)
+        v.assetViewContainer.selectMorePhotosButton
+            .addTarget(self,
+                       action: #selector(changeAssetSelectionButtonTapped),
+                       for: .touchUpInside)
         
         // Forces assetZoomableView to have a contentSize.
         // otherwise 0 in first selection triggering the bug : "invalid image size 0x0"
@@ -180,6 +185,24 @@ internal class YPLibraryVC: UIViewController, YPPermissionCheckable {
                 self?.selectedItems.removeAll()
             }
             self?.showMultipleSelection()
+        }
+    }
+    
+    // MARK: - Select More Photos
+
+    @objc
+    func changeAssetSelectionButtonTapped() {
+        if #available(iOS 14, *), isCurrentLibraryPermissionLimitedSelection {
+            let originalAppearance = UINavigationBar.appearance()
+            let skillestRed = UIColor(red: 255.0/255.0, green: 94.0/255.0, blue: 91.0/255.0, alpha: 1.0)
+            UINavigationBar.appearance().backgroundColor = skillestRed
+            if #available(iOS 15, *) {
+                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self) { _ in
+                    UINavigationBar.appearance().backgroundColor = originalAppearance.backgroundColor
+                }
+            } else {
+                PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self)
+            }
         }
     }
     
